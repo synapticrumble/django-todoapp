@@ -1,30 +1,43 @@
-# Python on Replit
+# Creating a Django ToDo App based on Dennis Ivy Course
 
-This is a template to get you started with Python on Replit. It's ready to go so you can just hit run and start coding!
+This is a project to create a todo app using python. It's ready to go so you can just clone and start running the app!
 
-## Running the repl
+## Configuring SECRET_KEY for production environment
 
-1. Setup a new secret environment variable (the lock icon) where the key is `SECRET_KEY` and the value is
-   a randomly generated token of 32 bits of randomnese. To generate such a token type this into the shell and hit Enter:
+1. Setup a new secret environment variable where the key is `SECRET_KEY` and the value is
+   a randomly generated token. To generate such a token type this into the shell and hit Enter:
+```python
+$ echo "export SECRET_KEY='$(openssl rand -hex 40)'" > .DJANGO_SECRET_KEY
+$ source .DJANGO_SECRET_KEY
+
 ```
-python
-import secrets
-secrets.token_urlsafe(32)
-```
-2. Hit run!
+2. On your project's settings.py file add these lines of code:
 
-See this 1 minute video for a walkthrough: [https://www.loom.com/share/ecc4e738149f4d1db3bcff01758b3e71](https://www.loom.com/share/341b5574d12040fb9fcbbff150777f1c)
+```python
+import os
+
+# ...
+
+try:
+    SECRET_KEY = os.environ["SECRET_KEY"]
+except KeyError as e:
+    raise RuntimeError("Could not find a SECRET_KEY in environment") from e
+    
+```
 
 ## Installing packages
 
-To add packages to your repl, you can just import directly in the file you want to use the package in, and it will automatically be installed when you press the run button. Like below:
-```python
-import math
-import pandas as pd
+To add packages to your project, you can just install packages directly from the file requirements.txt after creating a virtual environment, and activate the virtual environment before installing packages. On your project folder, use the below shell scripts provided
+(for Windows environment, Linux environment will be slightly different!):
+```shell
+>virtualenv .env
+>.env\Scripts\activate
+>pip install -r requirements.txt
+>python manage.py makemigrations
+>python manage.py migrate
+>python manage.py runserver
 ```
-
-You could also install packages by using the Replit packager interface in the left sidebar.
 
 ## Help
 
-If you need help you might be able to find an answer on our [docs](https://docs.replit.com) page. Feel free to report bugs and give us feedback [here](https://replit.com/support).# django-todoapp based on Dennis Ivy todo app course
+If you need help you might be able to find an answer on youtube by searching for "django-todoapp Dennis Ivy"
